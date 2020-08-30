@@ -8,8 +8,12 @@ import java.util.List;
 import me.hsgamer.topin.core.config.PluginConfig;
 import me.hsgamer.topin.core.config.path.IntegerConfigPath;
 import me.hsgamer.topin.getter.Getter;
+import me.hsgamer.topin.npc.getter.command.RemoveTopNPCCommand;
+import me.hsgamer.topin.npc.getter.command.SetTopNPCCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -17,6 +21,9 @@ public class TopNPCGetter implements Getter {
 
   public static final IntegerConfigPath UPDATE_PERIOD = new IntegerConfigPath("update", 20);
   private final List<TopNPC> topNPCList = new ArrayList<>();
+  private final NPCListener listener = new NPCListener(this);
+  private final SetTopNPCCommand setTopNPCCommand = new SetTopNPCCommand(this);
+  private final RemoveTopNPCCommand removeTopNPCCommand = new RemoveTopNPCCommand(this);
   private PluginConfig npcConfig;
   private BukkitTask updateTask;
 
@@ -29,6 +36,7 @@ public class TopNPCGetter implements Getter {
     npcConfig.saveConfig();
     loadNPC();
 
+    Bukkit.getPluginManager().registerEvents(listener, getInstance());
     final BukkitRunnable updateRunnable = new BukkitRunnable() {
       @Override
       public void run() {
@@ -36,11 +44,16 @@ public class TopNPCGetter implements Getter {
       }
     };
     updateTask = updateRunnable.runTaskTimer(getInstance(), 0, UPDATE_PERIOD.getValue());
+    getInstance().getCommandManager().register(setTopNPCCommand);
+    getInstance().getCommandManager().register(removeTopNPCCommand);
   }
 
   @Override
   public void unregister() {
     updateTask.cancel();
+    HandlerList.unregisterAll(listener);
+    getInstance().getCommandManager().unregister(setTopNPCCommand);
+    getInstance().getCommandManager().unregister(removeTopNPCCommand);
     saveNPC();
     ConfigurationSerialization.unregisterClass(TopNPC.class);
   }
@@ -54,7 +67,7 @@ public class TopNPCGetter implements Getter {
     topNPCList.removeIf(topNPC -> topNPC.getId() == id);
   }
 
-  public boolean containsSkull(int id) {
+  public boolean containsNPC(int id) {
     return topNPCList.stream().anyMatch(topNPC -> topNPC.getId() == id);
   }
 
