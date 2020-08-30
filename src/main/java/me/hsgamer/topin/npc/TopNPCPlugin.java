@@ -1,8 +1,8 @@
-package me.hsgamer.topin.exampleaddon;
+package me.hsgamer.topin.npc;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MainPlugin extends JavaPlugin {
+public class TopNPCPlugin extends JavaPlugin {
 
   /**
    * Called when enabling the addon

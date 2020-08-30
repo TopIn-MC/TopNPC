@@ -1,5 +1,5 @@
 name: ${project.name}
 version: "${project.version}"
 main: ${project.mainPluginClass}
-depend: [TopIn]
+depend: [TopIn, Citizens]
 api-version: "1.13"
