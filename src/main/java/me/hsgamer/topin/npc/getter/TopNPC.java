@@ -48,7 +48,7 @@ public class TopNPC implements ConfigurationSerializable {
     String name = Bukkit.getOfflinePlayer(dataList.getPair(index).getUniqueId()).getName();
     SkinTrait skinTrait = npc.getTrait(SkinTrait.class);
 
-    if (!skinTrait.getSkinName().equals(name)) {
+    if (skinTrait.getSkinName() == null || !skinTrait.getSkinName().equalsIgnoreCase(name)) {
       skinTrait.setSkinName(name);
     }
   }

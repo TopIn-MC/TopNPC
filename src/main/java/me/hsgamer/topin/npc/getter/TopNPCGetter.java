@@ -30,7 +30,7 @@ public class TopNPCGetter implements Getter {
   @Override
   public void register() {
     ConfigurationSerialization.registerClass(TopNPC.class);
-    npcConfig = new PluginConfig(getInstance(), "skull.yml");
+    npcConfig = new PluginConfig(getInstance(), "npc.yml");
     npcConfig.getConfig().options().copyDefaults(true);
     UPDATE_PERIOD.setConfig(npcConfig);
     npcConfig.saveConfig();
