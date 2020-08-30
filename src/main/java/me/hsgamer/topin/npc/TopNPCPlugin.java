@@ -1,22 +1,21 @@
 package me.hsgamer.topin.npc;
 
+import static me.hsgamer.topin.TopIn.getInstance;
+
+import me.hsgamer.topin.npc.getter.TopNPCGetter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TopNPCPlugin extends JavaPlugin {
 
-  /**
-   * Called when enabling the addon
-   */
+  private final TopNPCGetter getter = new TopNPCGetter();
+
   @Override
   public void onEnable() {
-    // Enable logic
+    getInstance().getGetterManager().register(getter);
   }
 
-  /**
-   * Called when disabling the addon
-   */
   @Override
   public void onDisable() {
-    // Disable logic
+    getInstance().getGetterManager().unregister(getter);
   }
 }
