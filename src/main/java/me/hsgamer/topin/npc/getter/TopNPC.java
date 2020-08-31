@@ -30,7 +30,7 @@ public class TopNPC implements ConfigurationSerializable {
 
   public void update() {
     NPC npc = CitizensAPI.getNPCRegistry().getById(id);
-    if (npc == null) {
+    if (npc == null || !npc.hasTrait(SkinTrait.class)) {
       return;
     }
 
