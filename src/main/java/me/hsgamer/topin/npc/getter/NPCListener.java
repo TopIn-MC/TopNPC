@@ -6,14 +6,14 @@ import org.bukkit.event.Listener;
 
 public class NPCListener implements Listener {
 
-  private final TopNPCGetter getter;
+    private final TopNPCGetter getter;
 
-  public NPCListener(TopNPCGetter getter) {
-    this.getter = getter;
-  }
+    public NPCListener(TopNPCGetter getter) {
+        this.getter = getter;
+    }
 
-  @EventHandler
-  public void onDelete(NPCRemoveEvent event) {
-    getter.removeNPC(event.getNPC().getId());
-  }
+    @EventHandler
+    public void onDelete(NPCRemoveEvent event) {
+        getter.removeNPC(event.getNPC().getId());
+    }
 }
